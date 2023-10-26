@@ -1,4 +1,4 @@
-const DB_HOST = "cluster0.zi6bc99.mongodb.net"
+const DB_HOST = "cluster0.ounivlo.mongodb.net"
 const DB_USER = "jeansariasm"
 const DB_PASSWORD = "countryDatabase"
 const DB_NAME = "CountryDB"

@@ -1,27 +1,20 @@
 const mongoose = require("mongoose")
 const app = require("./app")
 
-const {DB_HOST,DB_USER,DB_PASSWORD,DB_NAME,API_VERSION,IP_SERVER} = require("./constants")
-const PORT = 3200
+const {DB_HOST,DB_USER,DB_PASSWORD,DB_NAME,API_VERSION,IP_SERVER} = require("./config")
 
-app.get(`/api/${API_VERSION}/auth`,(req,res)=>res.send('Holi'));
-console.log(`mongodb+srv://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/${DB_NAME}`);
-mongoose
-    .connect(`mongodb+srv://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/${DB_NAME}`,{
-        useNewUrlParser:true,
-        useUnifiedTopology: true
-    })
-    .then(()=>{
-        console.log("Conexion a la base de datos exitosa");
+// Acceder a la configuración del archivo .env
 
-        app.listen(PORT,()=>{
-            console.log("###########################");
-            console.log("##### API REST ############");
-            console.log("###########################");
-            console.log(`http://${IP_SERVER}:${PORT}/api/${API_VERSION}`);
+// Acceder a variables del .env se usa process.env
+const port = process.env.PORT || 3200;
+
+//mongodb+srv://jeansariasm:countryDatabase@cluster0.zi6bc99.mongodb.net/
+//mongodb+srv://jeansariasm:countryDatabase@cluster0.zi6bc99.mongodb.net/
+app.listen(port, () => console.log(`Conectados por el puerto ${port}`));
+console.log(`mongodb+srv://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/`)
+console.log(`http://${IP_SERVER}:${port}/api/${API_VERSION}`);
             
-        })
-    })
-    .catch((error)=>{
-        console.error("Error conectando a la base de datos: ",error);
-    })
+mongoose
+    .connect(`mongodb+srv://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/`)
+    .then(()=>console.log("Conectado a mongoDB"))
+    .catch((err)=>console.error(`Error al conectar a mongoDB ${err}`));
