@@ -5,13 +5,14 @@ const dep = require("../models/departamentoMunicipio")
 
 async function getMe(req, res) {
   const { user_id } = req.user;
-
+  console.log("user id del getMe", user_id);
   const response = await User.findById(user_id);
-
+  console.log("usuario encontrado: ",response);
   if (!response) {
     res.status(400).send({ msg: "No se ha encontrado usuario" });
   } else {
     res.status(200).send(response);
+    console.log("respuesta enviada:",response);
   } 
 }
 

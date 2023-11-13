@@ -2,6 +2,7 @@ const bcrypt = require("bcryptjs");
 const User = require("../models/user");
 const jwt = require("../utils/jwt");
 const axios = require("axios");
+const emailer = require("../utils/emailer")
 
 /* Función que permite el registro de un usuario nuevo en el sistema */
 const register = async (req, res) => {
@@ -29,7 +30,7 @@ const Dep = data.filter(registro => registro.departamento === departamento);
         firstname,
         lastname,
         email: email.toLowerCase(),
-        role: "guess",
+        role: "Seller",
         active: false,
         password: hashPassword,
         document,
@@ -41,7 +42,9 @@ const Dep = data.filter(registro => registro.departamento === departamento);
   try {
     const userStorage = await user.save();
     res.status(201).send(userStorage);
+    emailer.EmailSend();
   } catch (error) {
+    console.log("error al intentar guardar", error);
     res.status(400).send({ msg: "Error al crear el usuario" +error});
   }
 };
@@ -54,27 +57,39 @@ const login = async (req, res) => {
   try {
     if (!password) {
       throw new Error("la contraseña es obligatoria");
+      console.log("la contraseña es obligatoria");
     }
     if(!email){
       throw new Error("El email es obligatorio");
+      console.log("El email es obligatorio");
+
+    
     }
     const emailLowerCase = email.toLowerCase();
     const userStore = await User.findOne({ email: emailLowerCase }).exec();
     if (!userStore) {
       throw new Error("El usuario no existe");
+      console.log("El usuario");
+      
     }
     const check = await bcrypt.compare(password, userStore.password);
     if (!check) {
       throw new Error("Contraseña incorrecta");
+      console.log("contraseña incorrecta");
+
     }
     if (!userStore.active) {
       throw new Error("Usuario no autorizado o no activo");
+      console.log("Usuario no autorizado o no activo");
+
     }
     res.status(200).send({
       access: jwt.createAccessToken(userStore),
       refresh: jwt.createRefreshToken(userStore),
     });
   } catch (error) {
+    console.log("error en el login", error);
+
     res.status(400).send({ msg: error.message });
   }
 };
