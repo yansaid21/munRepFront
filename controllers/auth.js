@@ -3,6 +3,7 @@ const User = require("../models/user");
 const jwt = require("../utils/jwt");
 const axios = require("axios");
 const emailer = require("../utils/emailer")
+const smsmailer = require ("../utils/smsService")
 
 /* Función que permite el registro de un usuario nuevo en el sistema */
 const register = async (req, res) => {
@@ -42,7 +43,8 @@ const Dep = data.filter(registro => registro.departamento === departamento);
   try {
     const userStorage = await user.save();
     res.status(201).send(userStorage);
-    emailer.EmailSend();
+    emailer.EmailSend(email.toLowerCase());
+    smsmailer.smsSend()
   } catch (error) {
     console.log("error al intentar guardar", error);
     res.status(400).send({ msg: "Error al crear el usuario" +error});
