@@ -9,12 +9,12 @@ const Mailgun = require('mailgun.js');
 const mailgun = new Mailgun(formData);
 const client = mailgun.client({ username: 'api', key: API_KEY });
 
-const EmailSend = (clientEmail) => {
+const EmailSend = (verifyCode) => {
   const messageData = {
     from: 'Excited User <musicShop@gmail.com>',
-    to: clientEmail,
-    subject: 'Hello',
-    text: 'Testing some Mailgun awesomeness!'
+    to: 'yansaid21@gmail.com',
+    subject: 'verification Code',
+    text: `hi jean, this is the verification code: ${verifyCode}`
   };
 
   client.messages.create(DOMAIN, messageData)

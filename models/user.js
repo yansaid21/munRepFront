@@ -18,6 +18,7 @@ const UserSchema = mongoose.Schema({
     avatar:String,
     departamento: String,
     municipio: String,
+    verifyCode: String,
 });
 
 module.exports = mongoose.model("User",UserSchema);

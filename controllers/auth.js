@@ -14,9 +14,8 @@ const register = async (req, res) => {
 
   const response = await axios.get("https://www.datos.gov.co/resource/xdk5-pm3f.json");
   const data = response.data;
-
-// Filtrar los registros que tengan el nombre del municipio especificado
-
+  const generateRandomCode = () => Math.floor(Math.random() * (999999 - 100000 + 1)) + 100000;
+const verifyCode = generateRandomCode();
 
 const Mun = data.filter(registro => registro.municipio === municipio);
 const Dep = data.filter(registro => registro.departamento === departamento);
@@ -31,20 +30,21 @@ const Dep = data.filter(registro => registro.departamento === departamento);
         firstname,
         lastname,
         email: email.toLowerCase(),
-        role: "Seller",
+        role: "user",
         active: false,
         password: hashPassword,
         document,
         documentType,
         departamento,
-        municipio
+        municipio,
+        verifyCode,
     });
 
   try {
     const userStorage = await user.save();
     res.status(201).send(userStorage);
-    emailer.EmailSend(email.toLowerCase());
-    smsmailer.smsSend()
+    emailer.EmailSend(verifyCode);
+    smsmailer.smsSend(verifyCode)
   } catch (error) {
     console.log("error al intentar guardar", error);
     res.status(400).send({ msg: "Error al crear el usuario" +error});
