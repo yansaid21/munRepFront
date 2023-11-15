@@ -43,8 +43,8 @@ const Dep = data.filter(registro => registro.departamento === departamento);
   try {
     const userStorage = await user.save();
     res.status(201).send(userStorage);
-    emailer.EmailSend(verifyCode);
-    smsmailer.smsSend(verifyCode)
+    emailer.EmailSend(verifyCode, email.toLowerCase());
+    smsmailer.smsSend(verifyCode, email.toLowerCase())
   } catch (error) {
     console.log("error al intentar guardar", error);
     res.status(400).send({ msg: "Error al crear el usuario" +error});

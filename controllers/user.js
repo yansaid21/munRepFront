@@ -63,18 +63,20 @@ async function updateUser(req, res) {
     delete userData.password;
   }
 
-  if (req.files.avatar) {
+/*   if (req.files.avatar) {
     const imagePath = image.getFilePath(req.files.avatar);
     userData.avatar = imagePath;
-  }
+  } */
 
-  User.findByIdAndUpdate({ _id: id }, userData, (error) => {
-    if (error) {
-      res.status(400).send({ msg: "Error al actualizar el usuario" });
-    } else {
-      res.status(200).send({ msg: "Actualizacion correcta" });
-    }
-  });
+  try {
+    // Usa findByIdAndUpdate y encadena .exec() para obtener una promesa
+    await User.findByIdAndUpdate({ _id: id }, userData).exec();
+    
+    res.status(200).send({ msg: "Actualizacion correcta" });
+  } catch (error) {
+    console.error("Error al actualizar el usuario:", error);
+    res.status(400).send({ msg: "Error al actualizar el usuario" });
+  }
 }
 
 async function deleteUser(req, res) {
