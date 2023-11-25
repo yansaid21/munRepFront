@@ -59,11 +59,11 @@ const login = async (req, res) => {
   try {
     if (!password) {
       throw new Error("la contraseña es obligatoria");
-      console.log("la contraseña es obligatoria");
+      //console.log("la contraseña es obligatoria");
     }
     if(!email){
       throw new Error("El email es obligatorio");
-      console.log("El email es obligatorio");
+      //console.log("El email es obligatorio");
 
     
     }
@@ -71,18 +71,18 @@ const login = async (req, res) => {
     const userStore = await User.findOne({ email: emailLowerCase }).exec();
     if (!userStore) {
       throw new Error("El usuario no existe");
-      console.log("El usuario");
+      //console.log("El usuario");
       
     }
     const check = await bcrypt.compare(password, userStore.password);
     if (!check) {
       throw new Error("Contraseña incorrecta");
-      console.log("contraseña incorrecta");
+      //console.log("contraseña incorrecta");
 
     }
     if (!userStore.active) {
       throw new Error("Usuario no autorizado o no activo");
-      console.log("Usuario no autorizado o no activo");
+      //console.log("Usuario no autorizado o no activo");
 
     }
     res.status(200).send({

@@ -5,7 +5,7 @@ const app = express();
 /* Cargar rutas */
 const userRoutes = require("./routes/user");
 const authRoutes = require("./routes/auth");
- const departamentoMunicipio = require("./routes/departamentoMunicipio");
+const itemRoutes = require("./routes/item");
 
 /* Trabajar con la extensión client-rest */
 app.use(express.json());
@@ -18,7 +18,6 @@ app.use(cors());
 console.log(`api/${API_VERSION}/`);
 app.use(`/api/${API_VERSION}`, authRoutes);
 app.use(`/api/${API_VERSION}`, userRoutes);
-app.use(`/api/${API_VERSION}/`, departamentoMunicipio);
-//console.log(`/api/${API_VERSION}/datosabiertos`); 
+app.use(`/api/${API_VERSION}`, itemRoutes);
 
 module.exports = app;
