@@ -1,10 +1,13 @@
-function getFilePath(file) {
-    const filePath = file.path;
-    const fileSplit = filePath.split("/");
-  
-    return `${fileSplit[1]}/${fileSplit[2]}`;
-  }
-  
-  module.exports = {
-    getFilePath,
-  };
+// image.js
+
+const path = require("path");
+
+function getFilePath(photoFile) {
+  const uploadDir = "uploads/item"; // Directorio donde se almacenan las imágenes
+  const photoPath = path.join(uploadDir, photoFile.name); // Combina el directorio y el nombre del archivo
+  return photoPath;
+}
+
+module.exports = {
+  getFilePath,
+};

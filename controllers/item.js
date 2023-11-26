@@ -22,12 +22,8 @@ async function getItems(req, res) {
 
 async function createItem(req, res) {
   try {
-    const item = new Item({ ...req.body, Active: false, Showcase: false });
+    const item = new Item({ ...req.body, Active: false, Showcase: false , Photo:null});
 
-    /*  if (req.files.Photo) {
-      const imagePath = image.getFilePath(req.files.Photo);
-      item.Photo = imagePath;
-    } */
 
     const itemStored = await item.save();
     console.log("Se ha creado el item", item);
@@ -42,16 +38,24 @@ async function updateItem(req, res) {
   try {
     const { id } = req.params;
     const itemData = req.body;
+    console.log("req.body",req.body);
+    console.log("req.files",req.files);
+    console.log("req.files.Photo",req.files.Photo);
 
-    /*  if (req.files.photo) {
-      const imagePath = image.getFilePath(req.files.avatar);
-      itemData.avatar = imagePath;
-    } */
+    if (req.files?.Photo !== undefined) {
+      const imagePath = image.getFilePath(req.files.Photo);
+      console.log("IMAGEPATH DESPUES DEL REQFILES------>", imagePath);
+      itemData.Photo = imagePath;
+    }else{
+      console.log(".PHOTO ES UNDEFINED");
+    }
+    
 
     await Item.findByIdAndUpdate({ _id: id }, itemData).exec();
     console.log("item actualizado", itemData);
     res.status(200).send({ msg: "Actualizacion correcta" });
   } catch (error) {
+    console.log("Error al actualizar el item:", error);
     console.error("Error al actualizar el item:", error);
     res.status(400).send({ msg: "Error al actualizar el item" });
   }
