@@ -68,9 +68,9 @@ async function updateItem(req, res) {
   try {
     const { id } = req.params;
     const itemData = req.body;
-    console.log("req.body", req.body);
+/*     console.log("req.body", req.body);
     console.log("req.files", req.files);
-    console.log("req.files.Photo", req.files.Photo);
+    console.log("req.files.Photo", req.files.Photo); */
 
     if (req.files?.Photo !== undefined) {
       // Obtén el nombre único del archivo generado por Multiparty
