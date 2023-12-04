@@ -5,17 +5,17 @@ const image = require("../utils/image");
 async function getMe(req, res) {
   try {
     const { user_id } = req.user;
-   /*  console.log("user id del getMe", user_id); */
+    console.log("user id del getMe", user_id);
     
     const response = await User.findById(user_id);
-    /* console.log("usuario encontrado: ", response); */
+    console.log("usuario encontrado: ", response);
 
     if (!response) {
       return res.status(400).send({ msg: "No se ha encontrado usuario" });
     }
 
     res.status(200).send(response);
-    /* console.log("respuesta enviada:", response); */
+    console.log("respuesta enviada:", response);
   } catch (error) {
     console.error("Error al obtener el usuario actual:", error);
     res.status(500).send({ msg: "Error interno del servidor" });

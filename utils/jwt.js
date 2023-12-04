@@ -29,7 +29,8 @@ const decoded = (token) => {
   try {
     return jwt.verify(token, JWT_SECRET_KEY);
   } catch (error) {
-    return console.log(error);
+    console.error("Error al decodificar el token:", error.message);
+    throw new Error("Error al decodificar el token");
   }
 };
 
